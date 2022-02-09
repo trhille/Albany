@@ -47,7 +47,7 @@ public:
   //! Both maps are nonoverlapped.
   void setCoordinatesAndComputeNullspace(
     const Teuchos::RCP<Thyra_MultiVector> &coordMV,
-    DiscType interleavedOrdering,
+    bool  interleavedOrdering,
     const Teuchos::RCP<const Thyra_VectorSpace>& soln_vs = Teuchos::null,
     const Teuchos::RCP<const Thyra_VectorSpace>& soln_overlap_vs = Teuchos::null);
 
@@ -56,7 +56,7 @@ public:
 
 private:
   int numPDEs;
-  DiscType interleavedOrdering;
+  bool  interleavedOrdering;
   bool computeConstantModes; //translations
   int physVectorDim;
   bool computeRotationModes;
