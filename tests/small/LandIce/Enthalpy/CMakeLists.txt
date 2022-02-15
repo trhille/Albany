@@ -11,12 +11,9 @@ else ()
  set (USE_SERIAL_MESH "false")
 endif()
 
-
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_enthalpy_humboldt.yaml
-                 ${CMAKE_CURRENT_BINARY_DIR}/input_enthalpy_humboldt.yaml)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_enthalpy_humboldt.yaml
+               ${CMAKE_CURRENT_BINARY_DIR}/input_enthalpy_humboldt.yaml)
  
-# Create the test
-add_test(${testName}_Humboldt ${Albany.exe} input_enthalpy_humboldt.yaml)
 # If Iopx is not present, we must decompose the input mesh first
 if (NOT ALBANY_PARALELL_EXODUS AND ALBANY_MPI)
     add_test (NAME FO_GIS_HUMBOLDT_decompMesh
@@ -24,15 +21,17 @@ if (NOT ALBANY_PARALELL_EXODUS AND ALBANY_MPI)
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/../AsciiMeshes/Humboldt)
     set_tests_properties (FO_GIS_HUMBOLDT_decompMesh PROPERTIES FIXTURES_SETUP humboldtMeshSetup)
 
-    set_tests_properties(${testName}_Humboldt
-                       PROPERTIES
-                       LABELS "LandIce;Tpetra;Forward"
-                       FIXTURES_REQUIRED humboldtMeshSetup)
-else ()
-    set_tests_properties(${testName}_Humboldt
-                       PROPERTIES
-                       LABELS "LandIce;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_Humboldt input_enthalpy_humboldt.yaml
+    LABELS "LandIce;Tpetra;Forward"
+    FIXTURES_REQUIRED humboldtMeshSetup
+  )
+else()
+  AlbanyCreateTest (${testName}_Humboldt input_enthalpy_humboldt.yaml
+    LABELS "LandIce;Tpetra;Forward"
+  )
 endif()  
+
+# Create the test
   
 if (ALBANY_EPETRA)
   # Copy input file from source to binary dir
@@ -40,8 +39,9 @@ if (ALBANY_EPETRA)
                  ${CMAKE_CURRENT_BINARY_DIR}/input_kleiner_B.yaml COPYONLY)
 
   # Create the test
-  add_test(${testName}_Kleiner_B ${SerialAlbany.exe} input_kleiner_B.yaml)
-  set_tests_properties(${testName}_Kleiner_B PROPERTIES LABELS "LandIce;Epetra;Forward;Serial")
+  AlbanyCreateTest (${testName}_Kleiner_B input_kleiner_B.yaml
+    SERIAL LABELS "LandIce;Epetra;Forward;Serial"
+  )
   
   
   # Copy input file from source to binary dir
@@ -49,7 +49,8 @@ if (ALBANY_EPETRA)
                  ${CMAKE_CURRENT_BINARY_DIR}/input_kleiner_A.yaml COPYONLY)
 
   # Create the test
-  add_test(${testName}_Kleiner_A ${SerialAlbany.exe} input_kleiner_A.yaml)
-  set_tests_properties(${testName}_Kleiner_A PROPERTIES LABELS "LandIce;Epetra;Forward;Serial")
+  AlbanyCreateTest (${testName}_Kleiner_A input_kleiner_A.yaml
+    SERIAL LABELS "LandIce;Epetra;Forward;Serial"
+  )
 endif()
 

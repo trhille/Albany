@@ -6,7 +6,8 @@ if (ALBANY_EPETRA)
                  ${CMAKE_CURRENT_BINARY_DIR}/input_domain_coupled.yaml COPYONLY)
 
   # Create the test
-  add_test(${testName}_Epetra ${Albany.exe} input_domain_coupled.yaml)
-  set_tests_properties(${testName}_Epetra PROPERTIES LABELS "Demo;Epetra;Forward")
+  AlbanyCreateTest (${testName}_Epetra input_domain_coupled.yaml
+    LABELS "Demo;Epetra;Forward"
+  )
 endif()
 

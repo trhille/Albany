@@ -22,14 +22,16 @@ set(testName ${testNameRoot})
 if (ALBANY_EPETRA) 
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input.yaml COPYONLY)
-  add_test(${testName}_Epetra ${Albany.exe} input.yaml)
-  set_tests_properties(${testName}_Epetra PROPERTIES LABELS "Basic;Epetra;Forward")
+  AlbanyCreateTest (${testName}_Epetra input.yaml
+    LABELS "Basic;Epetra;Forward"
+  )
 endif()
 if (ALBANY_IFPACK2)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/inputT.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/inputT.yaml COPYONLY)
-  add_test(${testName}_Tpetra ${Albany.exe} inputT.yaml)
-  set_tests_properties(${testName}_Tpetra PROPERTIES LABELS "Basic;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_Tpetra inputT.yaml
+    LABELS "Basic;Tpetra;Forward"
+  )
 endif ()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/inputEnrich.yaml
@@ -47,17 +49,19 @@ IF(ALBANY_STK_PERCEPT)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/inputRefine1.yaml
                    ${CMAKE_CURRENT_BINARY_DIR}/inputRefine1.yaml COPYONLY)
 
-    add_test(${testName}_1_Epetra ${Albany.exe} inputRefine1.yaml)
-    set_tests_properties(${testName}_Epetra PROPERTIES LABELS "Basic;Epetra;Forward")
+    AlbanyCreateTest (${testName}_1_Epetra inputRefine1.yaml
+      LABELS "Basic;Epetra;Forward"
+    )
 
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/inputRefine2.yaml
                    ${CMAKE_CURRENT_BINARY_DIR}/inputRefine2.yaml COPYONLY)
 
-    add_test(${testName}_2_Epetra ${Albany.exe} inputRefine2.yaml)
-    set_tests_properties(${testName}_Epetra PROPERTIES LABELS "Basic;Epetra;Forward")
+    AlbanyCreateTest (${testName}_2_Epetra inputRefine2.yaml
+      LABELS "Basic;Epetra;Forward"
+    )
 
     # Enrich and convert both still have bugs
-    #add_test(${testName}_Enrich ${Albany.exe} inputEnrich.yaml)
-    #add_test(${testName}_Convert ${Albany.exe} inputConvert.yaml)
+    #AlbanyCreateTest (${testName}_Enrich inputEnrich.yaml)
+    #AlbanyCreateTest (${testName}_Convert inputConvert.yaml)
   endif()
 ENDIF()

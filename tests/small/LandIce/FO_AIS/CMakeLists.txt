@@ -32,61 +32,43 @@ if (NOT ALBANY_PARALELL_EXODUS AND ALBANY_MPI)
         COMMAND ${SEACAS_DECOMP} -processors ${MPIMNP} antarctica_2d.exo
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
   set_tests_properties (FO_AIS_decompMesh PROPERTIES FIXTURES_SETUP antarcticaMeshSetup)
+  set (decompMesh TRUE)
 endif()
 
 
 if (ALBANY_EPETRA) 
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/inputML.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/inputML.yaml)
-  add_test(${testNameRoot}_ML ${Albany8.exe} inputML.yaml)
-    
-  if (NOT ALBANY_PARALELL_EXODUS AND ALBANY_MPI)
-    set_tests_properties(${testNameRoot}_ML
-                     PROPERTIES
-                     LABELS            "LandIce;Epetra;Forward"
-                     FIXTURES_REQUIRED antarcticaMeshSetup)
-  else()
-    set_tests_properties(${testNameRoot}_ML PROPERTIES LABELS "LandIce;Epetra;Forward")
-  endif()
+  AlbanyCreateTest (${testNameRoot}_ML inputML.yaml
+    NP8
+    LABELS "LandIce;Epetra;Forward"
+    FIXTURES_REQUIRED_IF decompMesh antarcticaMeshSetup
+  )
 endif()
 
 if(ALBANY_MUELU)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/inputMueLuShort.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/inputMueLuShort.yaml)
-  add_test(${testNameRoot}_MueLuShortList ${Albany8.exe} inputMueLuShort.yaml)
+  AlbanyCreateTest (${testNameRoot}_MueLuShortList inputMueLuShort.yaml
+    NP8
+    LABELS "LandIce;Tpetra;Forward"
+    FIXTURES_REQUIRED_IF decompMesh antarcticaMeshSetup
+  )
 
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/inputMueLu.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/inputMueLu.yaml)
-  add_test(${testNameRoot}_MueLu ${Albany8.exe} inputMueLu.yaml)
-    
-  if (NOT ALBANY_PARALELL_EXODUS AND ALBANY_MPI)
-    set_tests_properties(${testNameRoot}_MueLuShortList
-                     PROPERTIES
-                     LABELS            "LandIce;Tpetra;Forward"
-                     FIXTURES_REQUIRED antarcticaMeshSetup)
-    set_tests_properties(${testNameRoot}_MueLu
-                     PROPERTIES
-                     LABELS            "LandIce;Tpetra;Forward"
-                     FIXTURES_REQUIRED antarcticaMeshSetup)
-  else()
-    set_tests_properties(${testNameRoot}_MueLuShortList PROPERTIES LABELS "LandIce;Tpetra;Forward")
-    set_tests_properties(${testNameRoot}_MueLu PROPERTIES LABELS "LandIce;Tpetra;Forward")
-  endif()
+  AlbanyCreateTest (${testNameRoot}_MueLu inputMueLu.yaml
+    NP8
+    LABELS "LandIce;Tpetra;Forward"
+    FIXTURES_REQUIRED_IF decompMesh antarcticaMeshSetup
+  )
 endif()
-
 
 # if (ALBANY_FROSCH)
 #   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_FROSch.yaml
 #                  ${CMAKE_CURRENT_BINARY_DIR}/input_FROSch.yaml)
-#   add_test(${testNameRoot}_FROSch ${Albany8.exe} input_FROSch.yaml)
-#   if (NOT ALBANY_PARALELL_EXODUS AND ALBANY_MPI)
-#     set_tests_properties(${testNameRoot}_FROSch
-#                      PROPERTIES
-#                      LABELS            "LandIce;Tpetra;Forward"
-#                      FIXTURES_REQUIRED antarcticaMeshSetup)
-#   else()
-#     set_tests_properties(${testNameRoot}_FROSch
-#                        PROPERTIES
-#                        LABELS "LandIce;Tpetra;Forward")
-#   endif()
+#   AlbanyCreateTest (${testNameRoot}_FROSch input_FROSch.yaml
+#     LABELS "LandIce;Tpetra;Forward"
+#     FIXTURES_REQUIRED_IF decompMesh antarcticaMeshSetup)
+#   )
 # endif()=

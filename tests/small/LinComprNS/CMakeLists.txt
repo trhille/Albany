@@ -11,8 +11,9 @@ IF(NOT ALBANY_PARALLEL_ONLY AND ALBANY_EPETRA)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input1D_standingWave.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input1D_standingWave.yaml COPYONLY)
 
-  add_test(${testName} ${SerialAlbany.exe} input1D_standingWave.yaml)
-  set_tests_properties(${testName} PROPERTIES LABELS "Demo;Epetra;Forward;Serial")
+  AlbanyCreateTest (${testName} input1D_standingWave.yaml
+    SERIAL LABELS "Demo;Epetra;Forward;Serial"
+  )
 endif()
 
 ####################################
@@ -25,8 +26,9 @@ IF(NOT ALBANY_PARALLEL_ONLY AND ALBANY_EPETRA)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input2D.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input2D.yaml COPYONLY)
 
-  add_test(${testName} ${SerialAlbany.exe} input2D.yaml)
-  set_tests_properties(${testName} PROPERTIES LABELS "Demo;Epetra;Forward;Serial")
+  AlbanyCreateTest (${testName} input2D.yaml
+    LABELS "Demo;Epetra;Forward;Serial"
+  )
 endif()
 
 ####################################
@@ -39,8 +41,9 @@ if (ALBANY_IFPACK2)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input2Dunsteady.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input2Dunsteady.yaml COPYONLY)
 
-  add_test(${testName} ${Albany.exe} input2Dunsteady.yaml)
-  set_tests_properties(${testName} PROPERTIES LABELS "Demo;Tpetra;Forward")
+  AlbanyCreateTest (${testName} input2Dunsteady.yaml
+    LABELS "Demo;Tpetra;Forward"
+  )
 endif()
 
 ####################################
@@ -52,8 +55,9 @@ IF(NOT ALBANY_PARALLEL_ONLY AND ALBANY_EPETRA)
 
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input2DunsteadyMMS.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input2DunsteadyMMS.yaml COPYONLY)
-  add_test(${testName} ${SerialAlbany.exe} input2DunsteadyMMS.yaml)
-  set_tests_properties(${testName} PROPERTIES LABELS "Demo;Epetra;Forward;Serial")
+  AlbanyCreateTest (${testName} input2DunsteadyMMS.yaml
+    SERIAL LABELS "Demo;Epetra;Forward;Serial"
+  )
 ENDIF()
 
 ####################################
@@ -66,8 +70,9 @@ IF(NOT ALBANY_PARALLEL_ONLY AND ALBANY_EPETRA)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input2D_drivenPulse.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input2D_drivenPulse.yaml COPYONLY)
 
-  add_test(${testName} ${SerialAlbany.exe} input2D_drivenPulse.yaml)
-  set_tests_properties(${testName} PROPERTIES LABELS "Demo;Epetra;Forward;Serial")
+  AlbanyCreateTest (${testName} input2D_drivenPulse.yaml
+    SERIAL LABELS "Demo;Epetra;Forward;Serial"
+  )
 ENDIF()
 
 ####################################
@@ -80,8 +85,9 @@ IF(NOT ALBANY_PARALLEL_ONLY AND ALBANY_EPETRA)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input3Dunsteady.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input3Dunsteady.yaml COPYONLY)
 
-  add_test(${testName} ${SerialAlbany.exe} input3Dunsteady.yaml)
-  set_tests_properties(${testName} PROPERTIES LABELS "Demo;Epetra;Forward;Serial")
+  AlbanyCreateTest (${testName} input3Dunsteady.yaml
+    SERIAL LABELS "Demo;Epetra;Forward;Serial"
+  )
 ENDIF()
 
 ####################################
@@ -94,6 +100,6 @@ ENDIF()
 #  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input3DunsteadyNS.yaml
 #                 ${CMAKE_CURRENT_BINARY_DIR}/input3DunsteadyNS.yaml COPYONLY)
 
- # add_test(${testName} ${SerialAlbany.exe} input3DunsteadyNS.yaml)
-#  set_tests_properties(${testName} PROPERTIES LABELS "Demo;Epetra;Forward;Serial")
+#  AlbanyCreateTest (${testName} input3DunsteadyNS.yaml
+#    SERIAL LABELS "Demo;Epetra;Forward;Serial")
 #ENDIF()

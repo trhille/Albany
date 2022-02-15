@@ -8,8 +8,9 @@ if (ALBANY_EPETRA)
   # Copy Input file from source to binary dir
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input.yaml COPYONLY)
-  add_test(${testName}_Epetra ${Albany.exe} input.yaml)
-  set_tests_properties(${testName}_Epetra PROPERTIES LABELS "Basic;Epetra;Forward")
+  AlbanyCreateTest (${testName}_Epetra input.yaml
+    LABELS "Basic;Epetra;Forward"
+  )
 endif()
 
 if (ALBANY_IFPACK2)
@@ -17,17 +18,19 @@ if (ALBANY_IFPACK2)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/inputT.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/inputT.yaml COPYONLY)
 
-  add_test(${testName}_Tpetra ${Albany.exe} inputT.yaml)
-  set_tests_properties(${testName}_Tpetra  PROPERTIES LABELS "Basic;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_Tpetra inputT.yaml
+    LABELS "Basic;Tpetra;Forward"
+  )
 
-  add_test(${testName}_SERIAL ${SerialAlbany.exe} inputT.yaml)
-  set_tests_properties(${testName}_SERIAL PROPERTIES LABELS "Basic;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_SERIAL inputT.yaml
+    SERIAL LABELS "Basic;Tpetra;Forward"
+  )
 
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/inputT_RegressFail.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/inputT_RegressFail.yaml COPYONLY)
-  add_test(${testName}_RegressFail ${SerialAlbany.exe} inputT_RegressFail.yaml)
-  set_tests_properties(${testName}_RegressFail PROPERTIES WILL_FAIL TRUE)
-  set_tests_properties(${testName}_RegressFail PROPERTIES LABELS "Basic;Tpetra;Forward;RegressFail")
+  AlbanyCreateTest (${testName}_RegressFail inputT_RegressFail.yaml
+    SERIAL WILL_FAIL LABELS "Basic;Tpetra;Forward;RegressFail"
+  )
 endif ()
 
 if (ALBANY_MUELU_EXAMPLES)
@@ -37,16 +40,18 @@ if (ALBANY_MUELU_EXAMPLES)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/inputT_MueLu.yaml
              ${CMAKE_CURRENT_BINARY_DIR}/inputT_MueLu.yaml COPYONLY)
   # Create the tests with this name and standard executable
-  add_test(${testName} ${Albany.exe} inputT_MueLu.yaml)
-  set_tests_properties(${testName} PROPERTIES LABELS "Basic;Tpetra;Forward")
+  AlbanyCreateTest (${testName} inputT_MueLu.yaml
+    LABELS "Basic;Tpetra;Forward"
+  )
 
-  add_test(${testName}_SERIAL ${SerialAlbany.exe} inputT_MueLu.yaml)
-  set_tests_properties(${testName}_SERIAL PROPERTIES LABELS "Basic;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_SERIAL inputT_MueLu.yaml
+    SERIAL LABELS "Basic;Tpetra;Forward"
+  )
 
   # Regress fail test
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/inputT_MueLu_RegressFail.yaml
              ${CMAKE_CURRENT_BINARY_DIR}/inputT_MueLu_RegressFail.yaml COPYONLY)
-  add_test(${testName}_RegressFail ${SerialAlbany.exe} inputT_MueLu_RegressFail.yaml)
-  set_tests_properties(${testName}_RegressFail PROPERTIES LABELS "Basic;Tpetra;Forward;RegressFail")
-  set_tests_properties(${testName}_RegressFail PROPERTIES WILL_FAIL TRUE)
+  AlbanyCreateTest (${testName}_RegressFail inputT_MueLu_RegressFail.yaml
+    SERIAL WILL_FAIL LABELS "Basic;Tpetra;Forward;RegressFail"
+  )
 endif ()

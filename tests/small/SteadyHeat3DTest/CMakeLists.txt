@@ -16,15 +16,19 @@ if (ALBANY_EPETRA)
   # 2. Name the test with the directory name
   get_filename_component(testName ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
-  add_test(${testName}_A ${Albany.exe} inputA.yaml)
-  set_tests_properties(${testName}_A PROPERTIES LABELS "Basic;Epetra;Forward")
+  AlbanyCreateTest (${testName}_A inputA.yaml
+    LABELS "Basic;Epetra;Forward"
+  )
 
-  add_test(${testName}_B ${Albany.exe} inputB.yaml)
-  set_tests_properties(${testName}_B PROPERTIES LABELS "Basic;Epetra;Forward")
+  AlbanyCreateTest (${testName}_B inputB.yaml
+    LABELS "Basic;Epetra;Forward"
+  )
 
-  add_test(${testName}_C ${Albany.exe} inputC.yaml)
-  set_tests_properties(${testName}_C PROPERTIES LABELS "Basic;Epetra;Forward")
+  AlbanyCreateTest (${testName}_C inputC.yaml
+    LABELS "Basic;Epetra;Forward"
+  )
 
-  add_test(${testName}_D ${Albany.exe} inputD.yaml)
-  set_tests_properties(${testName}_D PROPERTIES LABELS "Basic;Epetra;Forward")
+  AlbanyCreateTest (${testName}_D inputD.yaml
+    LABELS "Basic;Epetra;Forward"
+  )
 endif()

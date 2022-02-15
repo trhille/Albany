@@ -17,6 +17,7 @@ if(NOT ALBANY_PARALLEL_ONLY)
                  ${CMAKE_CURRENT_BINARY_DIR}/cube.g.4.3 COPYONLY)
 
   # Create the test with this name and standard executable
-  add_test(${testName} ${Albany.exe} input.yaml)
-  set_tests_properties(${testName} PROPERTIES LABELS "Demo;Tpetra;Forward")
+  AlbanyCreateTest (${testName} input.yaml
+    LABELS "Demo;Tpetra;Forward"
+  )
 endif()

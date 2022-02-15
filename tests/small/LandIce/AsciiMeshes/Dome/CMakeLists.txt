@@ -22,12 +22,15 @@
                  ${CMAKE_CURRENT_BINARY_DIR}/input_fo_dome_restart.yaml COPYONLY)
 
 IF (ALBANY_EPETRA) 
-  add_test(${testName}_Ascii ${SerialAlbany.exe} input_fo_dome_ascii.yaml)
-  set_tests_properties(${testName}_Ascii PROPERTIES LABELS "LandIce;Epetra;Forward;Serial")
+  AlbanyCreateTest (${testName}_Ascii input_fo_dome_ascii.yaml
+    SERIAL LABELS "LandIce;Epetra;Forward;Serial"
+  )
 
   IF (ALBANY_SEACAS)
-    add_test(${testName}_Restart ${SerialAlbany.exe} input_fo_dome_restart.yaml)
-    set_tests_properties(${testName}_Restart PROPERTIES DEPENDS ${testName}_Ascii_Epetra)
-    set_tests_properties(${testName}_Restart PROPERTIES RUN_SERIAL TRUE LABELS "LandIce;Epetra;Forward;Serial")
+    AlbanyCreateTest (${testName}_Restart input_fo_dome_restart.yaml
+      SERIAL RUN_SERIAL 
+      DEPENDS ${testName}_Ascii_Epetra
+      LABELS "LandIce;Epetra;Forward;Serial"
+    )
   ENDIF()
 ENDIF()

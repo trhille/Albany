@@ -14,16 +14,26 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_with_source_dist_param_adjoint_
                ${CMAKE_CURRENT_BINARY_DIR}/input_with_source_dist_param_adjoint_sens_implicit.yaml COPYONLY)
 
 # Create the test with this name and standard executable
-add_test(${testName}_Scalar_Param_Fwd_Sens_Implicit ${Albany.exe} input_scalar_param_fwd_sens_implicit.yaml)
-set_tests_properties(${testName}_Scalar_Param_Fwd_Sens_Implicit PROPERTIES LABELS "Demo;Tpetra;Forward;Serial")
-add_test(${testName}_Scalar_Param_Adjoint_Sens_Explicit ${Albany.exe} input_scalar_param_adjoint_sens_explicit.yaml)
-set_tests_properties(${testName}_Scalar_Param_Adjoint_Sens_Explicit PROPERTIES LABELS "Demo;Tpetra;Adjoint;Serial")
-add_test(${testName}_with_Source_Dist_Param_Adjoint_Sens_Explicit_ConsistentM ${SerialAlbany.exe} input_with_source_dist_param_adjoint_sens_explicit_consistentM.yaml)
-set_tests_properties(${testName}_with_Source_Dist_Param_Adjoint_Sens_Explicit_ConsistentM PROPERTIES LABELS
-                                       	"Demo;Tpetra;Adjoint;Serial")
-add_test(${testName}_with_Source_Dist_Param_Adjoint_Sens_Explicit_LumpedM ${SerialAlbany.exe} input_with_source_dist_param_adjoint_sens_explicit_lumpedM.yaml)
-set_tests_properties(${testName}_with_Source_Dist_Param_Adjoint_Sens_Explicit_LumpedM PROPERTIES LABELS
-                                       	"Demo;Tpetra;Adjoint;Serial")
-add_test(${testName}_with_Source_Dist_Param_Adjoint_Implicit ${SerialAlbany.exe} input_with_source_dist_param_adjoint_sens_implicit.yaml)
-set_tests_properties(${testName}_with_Source_Dist_Param_Adjoint_Implicit PROPERTIES LABELS
-	                                "Demo;Tpetra;Forward;Serial")
+AlbanyCreateTest (${testName}_Scalar_Param_Fwd_Sens_Implicit
+  input_scalar_param_fwd_sens_implicit.yaml
+  LABELS "Demo;Tpetra;Forward;Serial")
+
+AlbanyCreateTest (${testName}_Scalar_Param_Adjoint_Sens_Explicit
+  input_scalar_param_adjoint_sens_explicit.yaml
+  LABELS "Demo;Tpetra;Adjoint;Serial"
+)
+
+AlbanyCreateTest (${testName}_with_Source_Dist_Param_Adjoint_Sens_Explicit_ConsistentM
+  input_with_source_dist_param_adjoint_sens_explicit_consistentM.yaml
+  SERIAL LABELS "Demo;Tpetra;Adjoint;Serial"
+)
+
+AlbanyCreateTest (${testName}_with_Source_Dist_Param_Adjoint_Sens_Explicit_LumpedM
+  input_with_source_dist_param_adjoint_sens_explicit_lumpedM.yaml
+  SERIAL LABELS "Demo;Tpetra;Adjoint;Serial"
+)
+
+AlbanyCreateTest (${testName}_with_Source_Dist_Param_Adjoint_Implicit
+  input_with_source_dist_param_adjoint_sens_implicit.yaml
+  SERIAL LABELS "Demo;Tpetra;Forward;Serial"
+)

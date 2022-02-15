@@ -36,7 +36,11 @@ if (ALBANY_EPETRA)
        "-DAUX_PROG=${CMAKE_CURRENT_BINARY_DIR}/CylHeatProfile" -P
        ${CMAKE_CURRENT_SOURCE_DIR}/runtest.cmake
        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-  set_tests_properties(${testName}_Epetra PROPERTIES LABELS "Basic;Epetra;Forward")
+  set_tests_properties(${testName}_Epetra PROPERTIES
+    PROCESSORS ${MPIMNP}
+    PROCESSOR_AFFINITY TRUE
+    LABELS "Basic;Epetra;Forward"
+  )
 endif()
 
 if (ALBANY_IFPACK2)
@@ -50,5 +54,9 @@ if (ALBANY_IFPACK2)
        "-DAUX_PROG=${CMAKE_CURRENT_BINARY_DIR}/CylHeatProfile" -P
        ${CMAKE_CURRENT_SOURCE_DIR}/runtest.cmake
        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-  set_tests_properties(${testName}_Tpetra PROPERTIES LABELS "Basic;Tpetra;Forward")
+  set_tests_properties(${testName}_Tpetra PROPERTIES
+    PROCESSORS ${MPIMNP}
+    PROCESSOR_AFFINITY TRUE
+    LABELS "Basic;Tpetra;Forward"
+  )
 endif ()

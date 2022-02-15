@@ -11,8 +11,9 @@ if (ALBANY_PANZER_EXPR_EVAL)
                   ${CMAKE_CURRENT_BINARY_DIR}/input_bueler_steady.yaml COPYONLY)
   configure_file (${CMAKE_CURRENT_SOURCE_DIR}/circle.msh
                   ${CMAKE_CURRENT_BINARY_DIR}/circle.msh COPYONLY)
-  add_test (${testName}_bueler_steady   ${Albany.exe} input_bueler_steady.yaml)
-  set_tests_properties(${testName}_bueler_steady PROPERTIES LABELS "LandIce;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_bueler_steady input_bueler_steady.yaml
+    LABELS "LandIce;Tpetra;Forward"
+  )
 
   # NOTE: the unsteady test produce a different solution than the steady one.
   #       It appears it takes *a lot of simulated years* for the unsteady solution
@@ -21,42 +22,49 @@ if (ALBANY_PANZER_EXPR_EVAL)
   #       This might be due to dissipation/dispersion induced by the time integrators.
   configure_file (${CMAKE_CURRENT_SOURCE_DIR}/input_bueler_unsteady.yaml
                   ${CMAKE_CURRENT_BINARY_DIR}/input_bueler_unsteady.yaml COPYONLY)
-  add_test (${testName}_bueler_unsteady   ${Albany.exe} input_bueler_unsteady.yaml)
-  set_tests_properties(${testName}_bueler_unsteady PROPERTIES LABELS "LandIce;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_bueler_unsteady input_bueler_unsteady.yaml
+    LABELS "LandIce;Tpetra;Forward"
+  )
 
   # -------------------------------------- #
   #            SHMIP suite A               #
   # -------------------------------------- #
   configure_file (${CMAKE_CURRENT_SOURCE_DIR}/input_suite_A1.yaml
                   ${CMAKE_CURRENT_BINARY_DIR}/input_suite_A1.yaml COPYONLY)
-  add_test (${testName}_suite_A1   ${Albany.exe} input_suite_A1.yaml)
-  set_tests_properties(${testName}_suite_A1 PROPERTIES LABELS "LandIce;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_suite_A1 input_suite_A1.yaml
+    LABELS "LandIce;Tpetra;Forward"
+  )
 
   configure_file (${CMAKE_CURRENT_SOURCE_DIR}/input_suite_A2.yaml
                   ${CMAKE_CURRENT_BINARY_DIR}/input_suite_A2.yaml COPYONLY)
-  add_test (${testName}_suite_A2   ${Albany.exe} input_suite_A2.yaml)
-  set_tests_properties(${testName}_suite_A2 PROPERTIES LABELS "LandIce;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_suite_A2 input_suite_A2.yaml
+    LABELS "LandIce;Tpetra;Forward"
+  )
 
   configure_file (${CMAKE_CURRENT_SOURCE_DIR}/input_suite_A3.yaml
                   ${CMAKE_CURRENT_BINARY_DIR}/input_suite_A3.yaml COPYONLY)
-  add_test (${testName}_suite_A3   ${Albany.exe} input_suite_A3.yaml)
-  set_tests_properties(${testName}_suite_A3 PROPERTIES LABELS "LandIce;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_suite_A3 input_suite_A3.yaml
+    LABELS "LandIce;Tpetra;Forward"
+  )
 
   configure_file (${CMAKE_CURRENT_SOURCE_DIR}/input_suite_A4.yaml
                   ${CMAKE_CURRENT_BINARY_DIR}/input_suite_A4.yaml COPYONLY)
-  add_test (${testName}_suite_A4   ${Albany.exe} input_suite_A4.yaml)
-  set_tests_properties(${testName}_suite_A4 PROPERTIES LABELS "LandIce;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_suite_A4 input_suite_A4.yaml
+    LABELS "LandIce;Tpetra;Forward"
+  )
 
   configure_file (${CMAKE_CURRENT_SOURCE_DIR}/input_suite_A5.yaml
                   ${CMAKE_CURRENT_BINARY_DIR}/input_suite_A5.yaml COPYONLY)
-  add_test (${testName}_suite_A5   ${Albany.exe} input_suite_A5.yaml)
-  set_tests_properties(${testName}_suite_A5 PROPERTIES LABELS "LandIce;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_suite_A5 input_suite_A5.yaml
+    LABELS "LandIce;Tpetra;Forward"
+  )
 
   # -------------------------------------- #
   #     Ian Hewitt's rectancular ramp      #
   # -------------------------------------- #
   configure_file (${CMAKE_CURRENT_SOURCE_DIR}/input_hewitt.yaml
                   ${CMAKE_CURRENT_BINARY_DIR}/input_hewitt.yaml COPYONLY)
-  add_test (${testName}_hewitt   ${Albany.exe} input_hewitt.yaml)
-  set_tests_properties(${testName}_hewitt PROPERTIES LABELS "LandIce;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_hewitt input_hewitt.yaml
+    LABELS "LandIce;Tpetra;Forward"
+  )
 endif()

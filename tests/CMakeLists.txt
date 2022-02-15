@@ -140,15 +140,19 @@ ELSE()
   ENDIF()
 ENDIF()
 
-IF(${PYTHON_TEST})
+if (PYTHON_TEST)
   set(PYTHON_TEST_HELPERS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/python)
-ENDIF()
+endif()
+
+# Make the test creation cmake function available to all test subdirectories
+list(APPEND CMAKE_MODULE_PATH ${Albany_SOURCE_DIR}/cmake)
+include (AlbanyCreateTest)
 
 add_subdirectory(small)
-IF (ALBANY_LARGE_TESTS)
+if (ALBANY_LARGE_TESTS)
   add_subdirectory(large)
-ENDIF()
+endif()
 
-IF (ALBANY_UNIT_TESTS)
+if (ALBANY_UNIT_TESTS)
   add_subdirectory(unit)
-ENDIF()
+endif()

@@ -7,6 +7,7 @@ if (ALBANY_EPETRA)
                  ${CMAKE_CURRENT_BINARY_DIR}/input.yaml COPYONLY)
 
   # Create the test with this name and standard executable
-  add_test(${testName} ${Albany.exe} input.yaml)
-  set_tests_properties(${testName} PROPERTIES LABELS "Demo;Epetra;Forward")
+  AlbanyCreateTest (${testName} input.yaml
+    LABELS "Demo;Epetra;Forward"
+  )
 endif()

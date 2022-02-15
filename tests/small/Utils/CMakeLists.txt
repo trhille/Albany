@@ -9,10 +9,10 @@ if (ALBANY_PANZER_EXPR_EVAL)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_populate_mesh_expr_eval.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input_populate_mesh_expr_eval.yaml COPYONLY)
 
-  add_test(${testName} ${Albany.exe} input_populate_mesh_expr_eval.yaml)
+  AlbanyCreateTest (${testName} input_populate_mesh_expr_eval.yaml)
 else()
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_populate_mesh.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input_populate_mesh.yaml COPYONLY)
 
-  add_test(${testName} ${Albany.exe} input_populate_mesh.yaml)
+  AlbanyCreateTest (${testName} input_populate_mesh.yaml)
 endif()

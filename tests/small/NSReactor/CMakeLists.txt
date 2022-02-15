@@ -23,9 +23,11 @@ if (ALBANY_EPETRA)
                  ${CMAKE_CURRENT_BINARY_DIR}/reactor_coarse.exo.4.3 COPYONLY)
 
   # Create the tests with this name and standard executable
-  add_test(${testName}_Pipe_Epetra ${Albany.exe} pipe.yaml)
-  set_tests_properties(${testName}_Pipe_Epetra PROPERTIES LABELS "Demo;Epetra;Forward")
+  AlbanyCreateTest (${testName}_Pipe_Epetra pipe.yaml
+    LABELS "Demo;Epetra;Forward"
+  )
 
-  add_test(${testName}_Reactor_Epetra ${Albany.exe} reactor.yaml)
-  set_tests_properties(${testName}_Reactor_Epetra PROPERTIES LABELS "Demo;Epetra;Forward")
+  AlbanyCreateTest (${testName}_Reactor_Epetra reactor.yaml
+    LABELS "Demo;Epetra;Forward"
+  )
 endif()

@@ -18,6 +18,7 @@ if (ALBANY_EPETRA)
                  ${CMAKE_CURRENT_BINARY_DIR}/ns-m4-bKL.par.4.3 COPYONLY)
 
   # Create the test
-  add_test(${testName} ${Albany.exe} input.yaml)
-  set_tests_properties(${testName} PROPERTIES LABELS "Demo;Epetra;Forward")
+  AlbanyCreateTest (${testName} input.yaml
+    LABELS "Demo;Epetra;Forward"
+  )
 endif()

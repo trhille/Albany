@@ -11,16 +11,18 @@ if (ALBANY_EPETRA)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_fo_sincos2D.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input_fo_sincos2D.yaml COPYONLY)
 
-  add_test(${testName}_Epetra ${Albany.exe} input_fo_sincos2D.yaml)
-  set_tests_properties(${testName}_Epetra PROPERTIES LABELS "LandIce;Epetra;Forward")
+  AlbanyCreateTest (${testName}_Epetra input_fo_sincos2D.yaml
+    LABELS "LandIce;Epetra;Forward"
+  )
 endif()
 
-if (ALBANY_IFPACK2)
+if (ALBANY_ifPACK2)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_fo_sincos2DT.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input_fo_sincos2DT.yaml COPYONLY)
 
-  add_test(${testName}_Tpetra ${Albany.exe} input_fo_sincos2DT.yaml)
-  set_tests_properties(${testName}_Tpetra PROPERTIES LABELS "LandIce;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_Tpetra input_fo_sincos2DT.yaml
+    LABELS "LandIce;Tpetra;Forward"
+  )
 endif()
 
 ####################################
@@ -32,21 +34,17 @@ set(testName ${testNameRoot}_SincCos3DPeriodicXY)
 if (ALBANY_EPETRA) 
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_fo_sincosz.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input_fo_sincosz.yaml COPYONLY)
-  add_test(${testName}_Epetra ${Albany.exe} input_fo_sincosz.yaml)
-  set_tests_properties(${testName}_Epetra PROPERTIES LABELS "LandIce;Epetra;Forward")
-  if(ALBANY_CTEST_TIMEOUT)
-    set_tests_properties (${testName}_Epetra PROPERTIES TIMEOUT ${ALBANY_CTEST_TIMEOUT}) 
-  endif()
+  AlbanyCreateTest (${testName}_Epetra input_fo_sincosz.yaml
+    DEFAULT_TIMEOUT LABELS "LandIce;Epetra;Forward"
+  )
 endif()
 
-if (ALBANY_IFPACK2)
+if (ALBANY_ifPACK2)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_fo_sincoszT.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input_fo_sincoszT.yaml COPYONLY)
-  add_test(${testName}_Tpetra ${Albany.exe} input_fo_sincoszT.yaml)
-  set_tests_properties(${testName}_Tpetra PROPERTIES LABELS "LandIce;Tpetra;Forward")
-  if(ALBANY_CTEST_TIMEOUT)
-    set_tests_properties (${testName}_Tpetra PROPERTIES TIMEOUT ${ALBANY_CTEST_TIMEOUT}) 
-  endif()
+  AlbanyCreateTest (${testName}_Tpetra input_fo_sincoszT.yaml
+    DEFAULT_TIMEOUT LABELS "LandIce;Tpetra;Forward"
+  )
 endif()
 
 ####################################
@@ -58,21 +56,17 @@ set(testName ${testNameRoot}_SinExp_Neumann)
 if (ALBANY_EPETRA) 
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_fo_sinexp_neumann.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input_fo_sinexp_neumann.yaml COPYONLY)
-  add_test(${testName}_Epetra ${Albany.exe} input_fo_sinexp_neumann.yaml)
-  set_tests_properties(${testName}_Epetra PROPERTIES LABELS "LandIce;Epetra;Forward")
-  if(ALBANY_CTEST_TIMEOUT)
-    set_tests_properties (${testName}_Epetra PROPERTIES TIMEOUT ${ALBANY_CTEST_TIMEOUT}) 
-  endif()
+  AlbanyCreateTest (${testName}_Epetra input_fo_sinexp_neumann.yaml
+    DEFAULT_TIMEOUT LABELS "LandIce;Epetra;Forward"
+  )
 endif()
 
-if (ALBANY_IFPACK2)
+if (ALBANY_ifPACK2)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_fo_sinexp_neumannT.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input_fo_sinexp_neumannT.yaml COPYONLY)
-  add_test(${testName}_Tpetra ${Albany.exe} input_fo_sinexp_neumannT.yaml)
-  set_tests_properties(${testName}_Tpetra PROPERTIES LABELS "LandIce;Tpetra;Forward")
-  if(ALBANY_CTEST_TIMEOUT)
-    set_tests_properties (${testName}_Tpetra PROPERTIES TIMEOUT ${ALBANY_CTEST_TIMEOUT}) 
-  endif()
+  AlbanyCreateTest (${testName}_Tpetra input_fo_sinexp_neumannT.yaml
+    DEFAULT_TIMEOUT LABELS "LandIce;Epetra;Forward"
+  )
 endif()
 
 ####################################
@@ -85,29 +79,25 @@ if (ALBANY_EPETRA)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_fo_cosexp_basal.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input_fo_cosexp_basal.yaml COPYONLY)
 
-  add_test(${testName}_Epetra ${Albany.exe} input_fo_cosexp_basal.yaml)
-  set_tests_properties(${testName}_Epetra PROPERTIES LABELS "LandIce;Epetra;Forward")
-  if(ALBANY_CTEST_TIMEOUT)
-    set_tests_properties (${testName}_Epetra PROPERTIES TIMEOUT ${ALBANY_CTEST_TIMEOUT}) 
-  endif()
+  AlbanyCreateTest (${testName}_Epetra input_fo_cosexp_basal.yaml
+    DEFAULT_TIMEOUT LABELS "LandIce;Epetra;Forward"
+  )
 endif()
 
-if (ALBANY_IFPACK2)
+if (ALBANY_ifPACK2)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_fo_cosexp_basalT.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input_fo_cosexp_basalT.yaml COPYONLY)
 
-  add_test(${testName}_Tpetra ${Albany.exe} input_fo_cosexp_basalT.yaml)
-  set_tests_properties(${testName}_Tpetra PROPERTIES LABELS "LandIce;Tpetra;Forward")
-  if(ALBANY_CTEST_TIMEOUT)
-    set_tests_properties (${testName}_Tpetra PROPERTIES TIMEOUT ${ALBANY_CTEST_TIMEOUT}) 
-  endif()
+  AlbanyCreateTest (${testName}_Tpetra input_fo_cosexp_basalT.yaml
+    DEFAULT_TIMEOUT LABELS "LandIce;Epetra;Forward"
+  )
 endif()
 
 ####################################
 ###    CosExp Basal all tests    ###
 ####################################
 
-IF(ALBANY_SEACAS)
+if(ALBANY_SEACAS)
 
   set(testName ${testNameRoot}_CosExp_BasalAll)
 
@@ -115,78 +105,86 @@ IF(ALBANY_SEACAS)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_fo_cosexp_basal_all_glensLaw.yaml
                    ${CMAKE_CURRENT_BINARY_DIR}/input_fo_cosexp_basal_all_glensLaw.yaml COPYONLY)
 
-    add_test(${testName}_Epetra ${SerialAlbany.exe} input_fo_cosexp_basal_all_glensLaw.yaml)
-    set_tests_properties(${testName}_Epetra PROPERTIES LABELS "LandIce;Epetra;Forward")
+    AlbanyCreateTest (${testName}_Epetra input_fo_cosexp_basal_all_glensLaw.yaml
+      SERIAL LABELS "LandIce;Epetra;Forward"
+    )
   endif()
 
-  if (ALBANY_IFPACK2)
+  if (ALBANY_ifPACK2)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_fo_cosexp_basal_all_glensLawT.yaml
                    ${CMAKE_CURRENT_BINARY_DIR}/input_fo_cosexp_basal_all_glensLawT.yaml COPYONLY)
 
-    add_test(${testName}_Tpetra ${SerialAlbany.exe} input_fo_cosexp_basal_all_glensLawT.yaml)
-    set_tests_properties(${testName}_Tpetra PROPERTIES LABELS "LandIce;Tpetra;Forward")
+    AlbanyCreateTest (${testName}_Tpetra input_fo_cosexp_basal_all_glensLawT.yaml
+      SERIAL LABELS "LandIce;Tpetra;Forward"
+    )
   endif()
-ENDIF()
+endif()
 
 ####################################
 ###     Grounding Line tests     ###
 ####################################
 
-IF (ALBANY_PANZER_EXPR_EVAL)
+if (ALBANY_PANZER_EXPR_EVAL)
   set(testName ${testNameRoot}_FO_GLF)
 
   # Quads
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_glf_quad.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input_glf_quad.yaml COPYONLY)
 
-  add_test(${testName}_QUAD ${SerialAlbany.exe} input_glf_quad.yaml)
-  set_tests_properties(${testName}_QUAD PROPERTIES LABELS "LandIce;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_QUAD input_glf_quad.yaml
+    SERIAL LABELS "LandIce;Tpetra;Forward"
+  )
 
   # Triangles
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_glf_tri.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input_glf_tri.yaml COPYONLY)
 
-  add_test(${testName}_TRI ${SerialAlbany.exe} input_glf_tri.yaml)
-  set_tests_properties(${testName}_TRI PROPERTIES LABELS "LandIce;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_TRI input_glf_tri.yaml
+    SERIAL LABELS "LandIce;Tpetra;Forward"
+  )
 
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_glf_tri_edge_on_gl.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input_glf_tri_edge_on_gl.yaml COPYONLY)
 
   # Triangles, corner case
-  add_test(${testName}_TRI_CORNER_CASE ${SerialAlbany.exe} input_glf_tri_edge_on_gl.yaml)
-  set_tests_properties(${testName}_TRI_CORNER_CASE PROPERTIES LABELS "LandIce;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_TRI_CORNER_CASE input_glf_tri_edge_on_gl.yaml
+    SERIAL LABELS "LandIce;Tpetra;Forward"
+  )
 
-  IF (ALBANY_PAMGEN)
+  if (ALBANY_PAMGEN)
     # Triangles, nonconst velocity
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_glf_tri_nonconst_vel.yaml
                    ${CMAKE_CURRENT_BINARY_DIR}/input_glf_tri_nonconst_vel.yaml COPYONLY)
 
-    add_test(${testName}_TRI_NONCONST_VELOCITY ${SerialAlbany.exe} input_glf_tri_nonconst_vel.yaml)
-    set_tests_properties(${testName}_TRI_NONCONST_VELOCITY PROPERTIES LABELS "LandIce;Tpetra;Forward")
-  ENDIF()
-ENDIF()
+    AlbanyCreateTest (${testName}_TRI_NONCONST_VELOCITY input_glf_tri_nonconst_vel.yaml
+      SERIAL LABELS "LandIce;Tpetra;Forward"
+    )
+  endif()
+endif()
 
 ###################################################
 ###     Surface Mass Balance Mismatch tests     ###
 ###################################################
 
-IF (ALBANY_PANZER_EXPR_EVAL)
+if (ALBANY_PANZER_EXPR_EVAL)
   set(testName ${testNameRoot}_FO_SMB)
 
   # Quads
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_smb_quad.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input_smb_quad.yaml COPYONLY)
 
-  add_test(${testName}_QUAD ${SerialAlbany.exe} input_smb_quad.yaml)
-  set_tests_properties(${testName}_QUAD PROPERTIES LABELS "LandIce;Tpetra;Forward")
+  AlbanyCreateTest (${testName}_QUAD input_smb_quad.yaml
+    SERIAL LABELS "LandIce;Tpetra;Forward"
+  )
 
-  IF (ALBANY_PAMGEN)
+  if (ALBANY_PAMGEN)
     # Triangles, nonconst velocity
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input_smb_tri.yaml
                  ${CMAKE_CURRENT_BINARY_DIR}/input_smb_tri.yaml COPYONLY)
 
-    add_test(${testName}_TRI ${SerialAlbany.exe} input_smb_tri.yaml)
-    set_tests_properties(${testName}_TRI PROPERTIES LABELS "LandIce;Tpetra;Forward")
-  ENDIF()
-ENDIF()
+    AlbanyCreateTest (${testName}_TRI input_smb_tri.yaml
+      SERIAL LABELS "LandIce;Tpetra;Forward"
+    )
+  endif()
+endif()
 
