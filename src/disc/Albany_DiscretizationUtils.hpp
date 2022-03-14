@@ -7,13 +7,14 @@
 #ifndef ALBANY_DISCRETIZATION_UTILS_HPP
 #define ALBANY_DISCRETIZATION_UTILS_HPP
 
+#include "Albany_KokkosTypes.hpp"
+#include "Albany_ScalarOrdinalTypes.hpp"
+
+#include <Teuchos_ArrayRCP.hpp>
+
 #include <map>
 #include <string>
 #include <vector>
-
-#include "Albany_KokkosTypes.hpp"
-#include "Albany_ScalarOrdinalTypes.hpp"
-#include "Teuchos_ArrayRCP.hpp"
 
 namespace Albany {
 
@@ -84,11 +85,11 @@ public:
 };
 using LocalSideSetInfoList = std::map<std::string, LocalSideSetInfo>;
 
-class wsLid
+// Better than std::pair, since ws/LID are more self-explanatory than first/second
+struct wsLid
 {
- public:
-  int ws;   // workset of element containing side
-  int LID;  // local id of element containing side
+  int ws;   // workset of element containing the entity
+  int LID;  // local id of the entity
 };
 
 using WsLIDList = std::map<GO, wsLid>;
