@@ -1004,10 +1004,10 @@ void
       Teuchos::Ptr<const Thyra_MultiVector> dxdp = Teuchos::null);
 
   //! Access to number of worksets - needed for working with StateManager
-  int
+  int 
   getNumWorksets()
   {
-    return disc->getWsElNodeEqID().size();
+    return disc->getNumWorksets ();
   }
 
   //! Const access to problem parameter list
@@ -1307,14 +1307,15 @@ void
 Application::loadWorksetBucketInfo(PHAL::Workset& workset, const int& ws,
     const std::string& evalName)
 {
-  auto const& wsElNodeEqID       = disc->getWsElNodeEqID();
-  auto const& wsElNodeID         = disc->getWsElNodeID();
+  // auto const& wsElNodeEqID       = disc->getWsElNodeEqID();
+  // auto const& wsElNodeID         = disc->getWsElNodeID();
   auto const& coords             = disc->getCoords();
   auto const& wsEBNames          = disc->getWsEBNames();
 
-  workset.numCells             = wsElNodeEqID[ws].extent(0);
-  workset.wsElNodeEqID         = wsElNodeEqID[ws];
-  workset.wsElNodeID           = wsElNodeID[ws];
+  workset.numCells             = disc->getWorksetSizes()[ws];
+  // workset.numCells             = wsElNodeEqID[ws].extent(0);
+  // workset.wsElNodeEqID         = wsElNodeEqID[ws];
+  // workset.wsElNodeID           = wsElNodeID[ws];
   workset.wsCoords             = coords[ws];
   workset.EBName               = wsEBNames[ws];
   workset.wsIndex              = ws;

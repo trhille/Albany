@@ -1,6 +1,11 @@
 #ifndef ALBANY_HESSIAN_HPP
 #define ALBANY_HESSIAN_HPP
 
+#include "Albany_DiscretizationUtils.hpp"
+#include "Albany_ThyraTypes.hpp"
+
+#include "Panzer_DOFManager.hpp"
+
 namespace Albany
 {
     /**
@@ -26,10 +31,16 @@ namespace Albany
      *
      * \param wsElDofs [in] Vector of IDArray associated to the mesh used.
      */
+    // Teuchos::RCP<Thyra_LinearOp> createSparseHessianLinearOp(
+    //     Teuchos::RCP<const Thyra_VectorSpace> p_owned_vs,
+    //     Teuchos::RCP<const Thyra_VectorSpace> p_overlapped_vs,
+    //     const std::vector<IDArray> wsElDofs);
     Teuchos::RCP<Thyra_LinearOp> createSparseHessianLinearOp(
         Teuchos::RCP<const Thyra_VectorSpace> p_owned_vs,
         Teuchos::RCP<const Thyra_VectorSpace> p_overlapped_vs,
-        const std::vector<IDArray> wsElDofs);
+        Teuchos::RCP<const panzer::DOFManager> p_dof_mgr,
+        const WorksetArray<int>& ws_sizes,
+        const WorksetView<int*,Kokkos::HostSpace>& ws_elem_lids);
 
     /**
      * \brief getHessianBlockIDs function

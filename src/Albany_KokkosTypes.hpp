@@ -27,6 +27,9 @@ typedef Kokkos::Compat::KokkosDeviceWrapperNode<PHX::Device>  KokkosNode;
 
 namespace Albany
 {
+
+using DeviceMemSpace = PHX::Device::memory_space;
+
 // NOTE: Tpetra may use a different LO type (Albany uses int32, while tpetra uses int). When extracting local views/matrices,
 //       be careful about this. At worst, you may need to extract pointers and reinterpret_cast them.
 

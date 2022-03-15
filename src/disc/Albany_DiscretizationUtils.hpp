@@ -97,6 +97,9 @@ using WsLIDList = std::map<GO, wsLid>;
 template <typename T>
 using WorksetArray = Teuchos::ArrayRCP<T>;
 
+template <typename T, typename MemSpace = DeviceMemSpace>
+using WorksetView = Kokkos::View<T*,Kokkos::LayoutRight,MemSpace>;
+
 // LB 8/17/18: I moved these out of AbstractDiscretization, so if one only needs
 // these types,
 //             he/she can include this small file rather than

@@ -8,10 +8,7 @@
 
 namespace Albany {
 
-class DOF {
-public:
-  
-private:
+struct DOF {
   Teuchos::RCP<panzer::DOFManager>        dof_mgr;
   Teuchos::RCP<const Thyra_MultiVector>   vs;
   Teuchos::RCP<const Thyra_MultiVector>   overlapped_vs;

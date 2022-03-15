@@ -7,23 +7,20 @@
 #ifndef ALBANY_DISTRIBUTED_PARAMETER_HPP
 #define ALBANY_DISTRIBUTED_PARAMETER_HPP
 
-#include <string>
+#include "Albany_ThyraTypes.hpp"
+#include "Albany_CombineAndScatterManager.hpp"
 
+#include "Panzer_DOFManager.hpp"
 #include "Teuchos_RCP.hpp"
 #include "Teuchos_TestForException.hpp"
 
-#include "Albany_StateInfoStruct.hpp" // For IDArray
-#include "Albany_ThyraTypes.hpp"
-#include "Albany_CombineAndScatterManager.hpp"
+#include <string>
 
 namespace Albany {
 
 //! Class for storing distributed parameters
 class DistributedParameter {
 public:
-
-  //! Id Array type
-  using id_array_vec_type = std::vector<IDArray>;
 
   //! Constructor
   DistributedParameter(
@@ -52,12 +49,12 @@ public:
   const std::string& name() const { return param_name; }
 
   //! Set workset_elem_dofs map
-  void set_workset_elem_dofs(const Teuchos::RCP<const id_array_vec_type>& ws_elem_dofs_) {
-    ws_elem_dofs = ws_elem_dofs_;
+  void set_dof_mgr(const Teuchos::RCP<const panzer::DOFManager>& dof_mgr) {
+    m_dof_mgr = dof_mgr;
   }
 
-  //! Return constant workset_elem_dofs. For each workset, workset_elem_dofs maps (elem, node, nComp) into local id
-  const id_array_vec_type& workset_elem_dofs() const { return *ws_elem_dofs; }
+  //! Access the dof manager for this parameter
+  Teuchos::RCP<const panzer::DOFManager> dof_mgr() const { return m_dof_mgr; }
 
   //! Get vector space 
   virtual Teuchos::RCP<const Thyra_VectorSpace> vector_space() const { return owned_vec->space(); }
@@ -109,8 +106,8 @@ protected:
   //! The manager for scatter/combine operation
   Teuchos::RCP<const CombineAndScatterManager> cas_manager;
 
-  //! Vector over worksets, containing DOF's map from (elem, node, nComp) into local id
-  Teuchos::RCP<const id_array_vec_type> ws_elem_dofs;
+  // Dof manager
+  Teuchos::RCP<const panzer::DOFManager>  m_dof_mgr;
 };
 
 } // namespace Albany

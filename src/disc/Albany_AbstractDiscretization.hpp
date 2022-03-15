@@ -98,6 +98,9 @@ class AbstractDiscretization
   virtual const std::map<std::string, Kokkos::View<LO****, PHX::Device>>&
   getLocalDOFViews(const int workset) const = 0;
 
+  // virtual int getWorksetSize (const int ws) const = 0;
+  virtual WorksetArray<int> getWorksetSizes () const = 0;
+  virtual WorksetView<int*,Kokkos::HostSpace> getWsElLID () const = 0;
   //! Get map from (Ws, El, Local Node, Eq) -> unkLID
   // virtual const Conn&
   // getWsElNodeEqID() const = 0;
@@ -114,6 +117,9 @@ class AbstractDiscretization
   //! Get Dof Manager of field field_name
   virtual const DOF& getDOF (const std::string& field_name) const {
     return *m_dof_map.at(field_name);
+  }
+  virtual const DOF& getSolutionDOF () const {
+    return *m_dof_map.at(solution_dof_name());
   }
 
   // //! Get Dof Manager of field field_name
@@ -191,6 +197,9 @@ class AbstractDiscretization
   //! Retrieve Vector (length num worksets) of Physics Index
   virtual const WorksetArray<int>&
   getWsPhysIndex() const = 0;
+
+  // The the number of worksets
+  int getNumWorksets () { return getWsPhysIndex().size(); }
 
   //! Retrieve connectivity map from elementGID to workset
   virtual WsLIDList&
