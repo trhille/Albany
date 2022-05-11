@@ -54,6 +54,8 @@ BasalFrictionCoefficient (const Teuchos::ParameterList& p,
   validPL.set<std::string>("Mu Field Name", "", "Name of the Field Mu");
   validPL.set<std::string>("Effective Pressure Type", "Field", "Type of N: One, Field, Hydrostatic, Hydrostatic Computed At Nodes");
   validPL.set<double>("Effective Pressure", 1.0, "Effective Pressure [kPa]");
+  validPL.set<double>("Minimum Fraction Overburden Pressure", 1.0, "Minimum Fraction Overburden Pressure");
+  validPL.set<double>("Length Scale Factor", 1.0, "Length Scale Factor [km]");
   validPL.set<double>("Power Exponent", 1.0, "Name of the Field Mu");
   validPL.set<double>("Beta", 1.0, "Constant value for beta");
   validPL.set<double>("Mu Coefficient", 1.0, "Constant value for Mu");
@@ -62,6 +64,7 @@ BasalFrictionCoefficient (const Teuchos::ParameterList& p,
   validPL.set<bool>("Zero Effective Pressure On Floating Ice At Nodes", false, "Whether to zero the effective pressure on floating ice at nodes");
   validPL.set<bool>("Zero Beta On Floating Ice", false, "Whether to zero beta on floating ice");
   validPL.set<bool>("Exponentiate Scalar Parameters", false, "Whether the scalar parameters needs to be exponentiate");
+  validPL.set<bool>("Use Pressurized Bed Above Sea Level", false, "Whether to use a Downs & Johnson (2022) type parameterization for basal water pressure"); 
   beta_list.validateParameters(validPL,0);
 
   zero_on_floating = beta_list.get<bool> ("Zero Beta On Floating Ice", false);
