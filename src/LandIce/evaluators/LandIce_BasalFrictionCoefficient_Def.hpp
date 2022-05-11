@@ -367,24 +367,45 @@ operator() (const BasalFrictionCoefficient_Tag& tag, const int& cell) const {
         }
         break;
       case EFFECTIVE_PRESSURE_TYPE::HYDROSTATIC:
+        double f_p;
+        double f_p_coeff;
+        double overburden_fraction = beta_list.get<double>("Minimum Fraction Overburden Pressure");
+        double pressure_smoothing_length_scale = beta_list.get<double>("Length Scale Factor");
+        if (beta_list.get<bool>("Use Pressurized Bed Above Sea Level")) {
+          f_p_coeff = 1.0;
+        } else {
+          f_p_coeff = 0.0;
+        }
         if(nodal)
-          NVal = g*KU::max(rho_i*thickness_field(cell,ipt)+KU::min(rho_w*bed_topo_field(cell,ipt),0.0),0.0);
+          f_p =  1.0 / (1.0 + std::exp(bed_topo_field(cell,ipt)/pressure_smoothing_length_scale));
+          NVal = g* KU::max(rho_i*thickness_field(cell,ipt)+(overburden_fraction*rho_i*
+                    thickness_field(cell,ipt)*f_p*f_p_coeff) + (1 - f_p*f_p_coeff)*
+                    KU::min(rho_w*bed_topo_field(cell,ipt),0.0),0.0);
         else {
           MeshScalarT thickness(0), bed_topo(0);
           for (unsigned int node=0; node<numNodes; ++node) {
             thickness += thickness_field(cell,node)*BF(cell,node,ipt);
             bed_topo += bed_topo_field(cell,node)*BF(cell,node,ipt);
           }
-          NVal = g*KU::max(rho_i*thickness+KU::min(rho_w*bed_topo,0.0),0.0);
+          f_p =  1.0 / (1.0 + std::exp(bed_topo/pressure_smoothing_length_scale));
+          NVal = g* KU::max(rho_i*thickness+(overburden_fraction*rho_i*
+                    thickness*f_p*f_p_coeff) + (1 - f_p*f_p_coeff)*
+                    KU::min(rho_w*bed_topo,0.0),0.0);
         }
         break;
       case EFFECTIVE_PRESSURE_TYPE::HYDROSTATIC_AT_NODES:
         if(nodal)
-          NVal = g* KU::max(rho_i*thickness_field(cell,ipt)+KU::min(rho_w*bed_topo_field(cell,ipt),0.0),0.0);
-        else {
+          f_p =  1.0 / (1.0 + std::exp(bed_topo_field(cell,ipt))/pressure_smoothing_length_scale)
+          NVal = g* KU::max(rho_i*thickness_field(cell,ipt)+(overburden_fraction*rho_i*
+                    thickness_field(cell,ipt)*f_p*f_p_coeff) + (1 - f_p*f_p_coeff)*
+                    KU::min(rho_w*bed_topo_field(cell,ipt),0.0),0.0);
+        else
           NVal = 0;
           for (unsigned int node=0; node<numNodes; ++node)
-            NVal += g*KU::max(rho_i*thickness_field(cell,node)+KU::min(rho_w*bed_topo_field(cell,node),0.0),0.0)*BF(cell,node,ipt);
+            f_p =  1.0 / (1.0 + std::exp(bed_topo_field(cell,node)/pressure_smoothing_length_scale))
+            NVal += g* KU::max(rho_i*thickness_field(cell,node)+(overburden_fraction*rho_i*
+                    thickness_field(cell,node)*f_p*f_p_coeff) + (1 - f_p*f_p_coeff)*
+                    KU::min(rho_w*bed_topo_field(cell,node),0.0),0.0)*BF(cell,node,ipt);
         }
         break;
       }
