@@ -75,6 +75,15 @@ BasalFrictionCoefficient (const Teuchos::ParameterList& p,
 
   std::string betaType = util::upper_case(beta_list.get<std::string>("Type"));
 
+  double f_p;
+  double f_p_coeff;
+  double overburden_fraction = beta_list.get<double>("Minimum Fraction Overburden Pressure", false);
+  double pressure_smoothing_length_scale = beta_list.get<double>("Length Scale Factor", false);
+  if (beta_list.get<bool>("Use Pressurized Bed Above Sea Level")) {
+     f_p_coeff = 1.0;
+  } else {
+     f_p_coeff = 0.0;
+  }
 
   is_side_equation = p.isParameter("Side Set Name");
 
@@ -337,6 +346,10 @@ operator() (const BasalFrictionCoefficient_Tag& tag, const int& cell) const {
 
   ParamScalarT muValue = 1.0;
   typename Albany::StrongestScalarType<EffPressureST,MeshScalarT>::type NVal = N_val;
+  typename Albany::StrongestScalarType<EffPressureST,MeshScalarT>::type f_p = f_p;
+  typename Albany::StrongestScalarType<EffPressureST,MeshScalarT>::type f_p_coeff = f_p_coeff;
+  typename Albany::StrongestScalarType<EffPressureST,MeshScalarT>::type overburden_fraction = overburden_fraction;
+  typename Albany::StrongestScalarType<EffPressureST,MeshScalarT>::type pressure_smoothing_length_scale = pressure_smoothing_length_scale;
 
   if(beta_type != BETA_TYPE::CONSTANT) {
     for (unsigned int ipt=0; ipt<dim; ++ipt) {
@@ -360,7 +373,7 @@ operator() (const BasalFrictionCoefficient_Tag& tag, const int& cell) const {
         if(zero_N_on_floating_at_nodes) {
           NVal = 0;
           if(nodal) {
-            if(rho_i*thickness_field(cell,ipt)+rho_w*bed_topo_field(cell,ipt) > 0)
+            if (rho_i*thickness_field(cell,ipt)+rho_w*bed_topo_field(cell,ipt) > 0)
               NVal =  1.0;
           } else {
             for (unsigned int node=0; node<numNodes; ++node)
@@ -370,21 +383,12 @@ operator() (const BasalFrictionCoefficient_Tag& tag, const int& cell) const {
         }
         break;
       case EFFECTIVE_PRESSURE_TYPE::HYDROSTATIC:
-        double f_p;
-        double f_p_coeff;
-        double overburden_fraction = beta_list.get<double>("Minimum Fraction Overburden Pressure");
-        double pressure_smoothing_length_scale = beta_list.get<double>("Length Scale Factor");
-        if (beta_list.get<bool>("Use Pressurized Bed Above Sea Level")) {
-          f_p_coeff = 1.0;
-        } else {
-          f_p_coeff = 0.0;
-        }
-        if(nodal)
+        if(nodal) {
           f_p =  1.0 / (1.0 + std::exp(bed_topo_field(cell,ipt)/pressure_smoothing_length_scale));
           NVal = g* KU::max(rho_i*thickness_field(cell,ipt)+(overburden_fraction*rho_i*
                     thickness_field(cell,ipt)*f_p*f_p_coeff) + (1 - f_p*f_p_coeff)*
                     KU::min(rho_w*bed_topo_field(cell,ipt),0.0),0.0);
-        else {
+	} else {
           MeshScalarT thickness(0), bed_topo(0);
           for (unsigned int node=0; node<numNodes; ++node) {
             thickness += thickness_field(cell,node)*BF(cell,node,ipt);
@@ -397,18 +401,19 @@ operator() (const BasalFrictionCoefficient_Tag& tag, const int& cell) const {
         }
         break;
       case EFFECTIVE_PRESSURE_TYPE::HYDROSTATIC_AT_NODES:
-        if(nodal)
-          f_p =  1.0 / (1.0 + std::exp(bed_topo_field(cell,ipt))/pressure_smoothing_length_scale)
+	if(nodal) {
+          f_p =  1.0 / (1.0 + std::exp(bed_topo_field(cell,ipt))/pressure_smoothing_length_scale);
           NVal = g* KU::max(rho_i*thickness_field(cell,ipt)+(overburden_fraction*rho_i*
                     thickness_field(cell,ipt)*f_p*f_p_coeff) + (1 - f_p*f_p_coeff)*
                     KU::min(rho_w*bed_topo_field(cell,ipt),0.0),0.0);
-        else
+	} else {
           NVal = 0;
-          for (unsigned int node=0; node<numNodes; ++node)
-            f_p =  1.0 / (1.0 + std::exp(bed_topo_field(cell,node)/pressure_smoothing_length_scale))
+          for (unsigned int node=0; node<numNodes; ++node) {
+            f_p =  1.0 / (1.0 + std::exp(bed_topo_field(cell,node)/pressure_smoothing_length_scale));
             NVal += g* KU::max(rho_i*thickness_field(cell,node)+(overburden_fraction*rho_i*
                     thickness_field(cell,node)*f_p*f_p_coeff) + (1 - f_p*f_p_coeff)*
                     KU::min(rho_w*bed_topo_field(cell,node),0.0),0.0)*BF(cell,node,ipt);
+	  }
         }
         break;
       }
